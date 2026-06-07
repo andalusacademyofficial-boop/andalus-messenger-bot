@@ -113,20 +113,14 @@ def send_quick_replies(recipient_id, text, replies):
     quick_replies = [{"content_type": "text", "title": r, "payload": r} for r in replies]
     payload = {
         "recipient": {"id": recipient_id},
-        "message": {
-            "text": text,
-            "quick_replies": quick_replies
-        }
+        "message": {"text": text, "quick_replies": quick_replies}
     }
     requests.post(url, json=payload)
 
 
 def send_message(recipient_id, text):
     url = f"https://graph.facebook.com/v18.0/me/messages?access_token={PAGE_ACCESS_TOKEN}"
-    payload = {
-        "recipient": {"id": recipient_id},
-        "message": {"text": text}
-    }
+    payload = {"recipient": {"id": recipient_id}, "message": {"text": text}}
     requests.post(url, json=payload)
 
 
@@ -135,23 +129,38 @@ def show_main_menu(sender_id, name=""):
     send_quick_replies(
         sender_id,
         greeting + "🏥 مركز الاندلس للتدريب\nدمنهور — البحيرة\n\nاستفساراتك عن إيه؟",
-        ["👨‍🎓 متدرب حالي", "📋 تسجيل جديد", "🎓 الكورسات", "🏥 عن المركز", "📍 الفروع", "📅 حجز موعد"]
+        ["👨‍🎓 متدرب حالي", "📋 تسجيل جديد", "🎓 الكورسات"]
+    )
+    send_quick_replies(
+        sender_id,
+        "اختار من هنا كمان:",
+        ["🏥 عن المركز", "📍 الفروع", "📅 حجز موعد"]
     )
 
 
 def show_enrolled_menu(sender_id):
     send_quick_replies(
         sender_id,
-        "👨‍🎓 أهلاً بك يا متدرب!\n\nاختار اللي تحتاجه:",
-        ["📚 بوت المناهج", "📅 جدول المحاضرات", "🎓 استفسار شهادة", "🔙 رجوع"]
+        "👨‍🎓 أهلاً بك يا متدرب!\nاختار اللي تحتاجه:",
+        ["📚 بوت المناهج", "📅 جدول المحاضرات"]
+    )
+    send_quick_replies(
+        sender_id,
+        "أو:",
+        ["🎓 استفسار شهادة", "🔙 رجوع"]
     )
 
 
 def show_courses_menu(sender_id):
     send_quick_replies(
         sender_id,
-        "🎓 برامج مركز الاندلس للتدريب\n\nاختار المجال:",
-        ["🏥 خدمات صحية", "🌍 اللغات", "🧠 صحة نفسية", "🥗 تغذية علاجية", "📊 كورسات إدارية", "💻 تكنولوجيا وذكاء اصطناعي", "🔙 رجوع"]
+        "🎓 برامج مركز الاندلس:\nاختار المجال:",
+        ["🏥 خدمات صحية", "🌍 اللغات", "🧠 صحة نفسية"]
+    )
+    send_quick_replies(
+        sender_id,
+        "أو:",
+        ["🥗 تغذية علاجية", "📊 كورسات إدارية", "💻 تكنولوجيا وذكاء اصطناعي", "🔙 رجوع"]
     )
 
 
@@ -159,7 +168,12 @@ def show_health_menu(sender_id):
     send_quick_replies(
         sender_id,
         "🏥 برامج الخدمات الصحية:",
-        ["مساعد خدمات صحية", "مساعد فني تحاليل", "مساعد طبيب أسنان", "سكرتارية طبية", "إسعافات أولية", "🔙 رجوع"]
+        ["مساعد خدمات صحية", "مساعد فني تحاليل", "مساعد طبيب أسنان"]
+    )
+    send_quick_replies(
+        sender_id,
+        "أو:",
+        ["سكرتارية طبية", "إسعافات أولية", "🔙 رجوع"]
     )
 
 
@@ -177,24 +191,18 @@ def handle_message(sender_id, msg, sender_name):
 
     greetings = ["مرحبا", "هلا", "السلام عليكم", "اهلا", "ابدأ", "start", "hi", "hello", "مرحبً"]
 
-    if msg in greetings or msg == "🔙 رجوع" and state == "main":
+    if msg in greetings:
         user_state[sender_id] = "main"
         show_main_menu(sender_id, sender_name)
         return
 
     if msg == "🔙 رجوع":
-        if state == "enrolled":
-            user_state[sender_id] = "main"
-            show_main_menu(sender_id)
-        elif state == "courses":
+        if state in ["enrolled", "courses", "branches", "booking"]:
             user_state[sender_id] = "main"
             show_main_menu(sender_id)
         elif state == "health":
             user_state[sender_id] = "courses"
             show_courses_menu(sender_id)
-        elif state == "branches":
-            user_state[sender_id] = "main"
-            show_main_menu(sender_id)
         elif state == "curriculum":
             user_state[sender_id] = "enrolled"
             show_enrolled_menu(sender_id)
