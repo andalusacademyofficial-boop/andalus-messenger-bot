@@ -87,14 +87,14 @@ HEALTH_FIRST_AID = (
 
 BRANCH_KAFR = (
     "🏢 فرع كفر الدوار\n"
-    "قاعة نادي المعلمين\n\n"
+   
     "📞 01286868182\n"
     "📞 01021004428"
 )
 
 BRANCH_VIC = (
     "🏢 فرع الإسكندرية - فيكتوريا\n"
-    "قاعة جليم\n\n"
+    
     "📞 01555654545"
 )
 
@@ -128,13 +128,8 @@ def show_main_menu(sender_id, name=""):
     greeting = "أهلاً " + name + "!\n\n" if name else ""
     send_quick_replies(
         sender_id,
-        greeting + "🏥 مركز الاندلس للتدريب\nدمنهور — البحيرة\n\nاستفساراتك عن إيه؟",
-        ["👨‍🎓 متدرب حالي", "📋 تسجيل جديد", "🎓 الكورسات"]
-    )
-    send_quick_replies(
-        sender_id,
-        "اختار من هنا كمان:",
-        ["🏥 عن المركز", "📍 الفروع", "📅 حجز موعد"]
+        greeting + "🏥 مركز الاندلس للتدريب\n\n\nاستفساراتك عن إيه؟",
+        ["👨‍🎓 متدرب حالي", "📋 تسجيل جديد", "🎓 الكورسات", "🏥 عن المركز", "📍 الفروع", "📅 حجز موعد"]
     )
 
 
@@ -142,12 +137,7 @@ def show_enrolled_menu(sender_id):
     send_quick_replies(
         sender_id,
         "👨‍🎓 أهلاً بك يا متدرب!\nاختار اللي تحتاجه:",
-        ["📚 بوت المناهج", "📅 جدول المحاضرات"]
-    )
-    send_quick_replies(
-        sender_id,
-        "أو:",
-        ["🎓 استفسار شهادة", "🔙 رجوع"]
+        ["📚 بوت المناهج", "📅 جدول المحاضرات", "🎓 استفسار شهادة", "🔙 رجوع"]
     )
 
 
@@ -155,12 +145,7 @@ def show_courses_menu(sender_id):
     send_quick_replies(
         sender_id,
         "🎓 برامج مركز الاندلس:\nاختار المجال:",
-        ["🏥 خدمات صحية", "🌍 اللغات", "🧠 صحة نفسية"]
-    )
-    send_quick_replies(
-        sender_id,
-        "أو:",
-        ["🥗 تغذية علاجية", "📊 كورسات إدارية", "💻 تكنولوجيا وذكاء اصطناعي", "🔙 رجوع"]
+        ["🏥 خدمات صحية", "🌍 اللغات", "🧠 صحة نفسية", "🥗 تغذية علاجية", "📊 كورسات إدارية", "💻 تكنولوجيا", "🔙 رجوع"]
     )
 
 
@@ -168,12 +153,7 @@ def show_health_menu(sender_id):
     send_quick_replies(
         sender_id,
         "🏥 برامج الخدمات الصحية:",
-        ["مساعد خدمات صحية", "مساعد فني تحاليل", "مساعد طبيب أسنان"]
-    )
-    send_quick_replies(
-        sender_id,
-        "أو:",
-        ["سكرتارية طبية", "إسعافات أولية", "🔙 رجوع"]
+        ["مساعد خدمات صحية", "مساعد تحاليل", "مساعد أسنان", "سكرتارية طبية", "إسعافات أولية", "🔙 رجوع"]
     )
 
 
@@ -273,7 +253,7 @@ def handle_message(sender_id, msg, sender_name):
         elif msg == "📊 كورسات إدارية":
             send_message(sender_id, "للاستفسار عن الكورسات الإدارية:\n📞 01286868182")
             show_courses_menu(sender_id)
-        elif msg == "💻 تكنولوجيا وذكاء اصطناعي":
+        elif msg == "💻 تكنولوجيا":
             send_message(sender_id, "للاستفسار عن كورسات التكنولوجيا:\n📞 01286868182")
             show_courses_menu(sender_id)
         else:
@@ -283,10 +263,10 @@ def handle_message(sender_id, msg, sender_name):
         if msg == "مساعد خدمات صحية":
             send_message(sender_id, HEALTH_ASSISTANT)
             show_health_menu(sender_id)
-        elif msg == "مساعد فني تحاليل":
+        elif msg == "مساعد تحاليل":
             send_message(sender_id, HEALTH_LAB)
             show_health_menu(sender_id)
-        elif msg == "مساعد طبيب أسنان":
+        elif msg == "مساعد أسنان":
             send_message(sender_id, HEALTH_DENTAL)
             show_health_menu(sender_id)
         elif msg == "سكرتارية طبية":
