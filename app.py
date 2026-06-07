@@ -37,7 +37,7 @@ CENTER_INFO = (
     "🏆 الاعتمادات:\n"
     "✔ معتمد من المعهد القومي للجودة\n"
     "✔ القرار رقم T347/411\n\n"
-    "🤖 نفخر بأننا أول مركز تدريب صحي في البحيرة\n"
+    "🤖 نفخر بأننا أول مركز تدريب صحي في مصر\n"
     "يستخدم الذكاء الاصطناعي في خدمة طلابه.\n\n"
     "📍 مركز الأندلس... حيث يبدأ طريقك نحو التعلم والتميز المهني."
 )
@@ -87,14 +87,14 @@ HEALTH_FIRST_AID = (
 
 BRANCH_KAFR = (
     "🏢 فرع كفر الدوار\n"
-   
+
     "📞 01286868182\n"
     "📞 01021004428"
 )
 
 BRANCH_VIC = (
     "🏢 فرع الإسكندرية - فيكتوريا\n"
-    
+
     "📞 01555654545"
 )
 
@@ -128,7 +128,7 @@ def show_main_menu(sender_id, name=""):
     greeting = "أهلاً " + name + "!\n\n" if name else ""
     send_quick_replies(
         sender_id,
-        greeting + "🏥 مركز الاندلس للتدريب\n\n\nاستفساراتك عن إيه؟",
+        greeting + "🏥 مركز الاندلس للتدريب\\n\nاستفساراتك عن إيه؟",
         ["👨‍🎓 متدرب حالي", "📋 تسجيل جديد", "🎓 الكورسات", "🏥 عن المركز", "📍 الفروع", "📅 حجز موعد"]
     )
 
@@ -168,13 +168,6 @@ def show_branches_menu(sender_id):
 def handle_message(sender_id, msg, sender_name):
     msg = msg.strip()
     state = user_state.get(sender_id, "main")
-
-    greetings = ["مرحبا", "هلا", "السلام عليكم", "اهلا", "ابدأ", "start", "hi", "hello", "مرحبً"]
-
-    if msg in greetings:
-        user_state[sender_id] = "main"
-        show_main_menu(sender_id, sender_name)
-        return
 
     if msg == "🔙 رجوع":
         if state in ["enrolled", "courses", "branches", "booking"]:
